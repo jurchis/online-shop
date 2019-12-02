@@ -31,11 +31,11 @@ public class ProductServiceIntegrationTests {
 
     @Test(expected = TransactionSystemException.class)
     public void testCreateProduct_whenInvalidRequest_thenThrowException() {
-		SaveProductRequest request = new SaveProductRequest();
-		// leaving request properties with default null values
-		//to validate the negative flow
+        SaveProductRequest request = new SaveProductRequest();
+        // leaving request properties with default null values
+        //to validate the negative flow
 
-		productService.createProduct(request);
+        productService.createProduct(request);
     }
 
     @Test
@@ -65,19 +65,19 @@ public class ProductServiceIntegrationTests {
         Product createdProduct = createProduct();
 
         SaveProductRequest request = new SaveProductRequest();
-        request.setName(createdProduct.getName()+" updated");
-        request.setDescription(createdProduct.getDescription()+" updated");
+        request.setName(createdProduct.getName() + " updated");
+        request.setDescription(createdProduct.getDescription() + " updated");
         request.setPrice(createdProduct.getPrice() + 10);
         request.setQuantity(createdProduct.getQuantity() + 10);
 
         Product updatedProduct = productService.updateProduct(createdProduct.getId(), request);
 
-        assertThat(createdProduct, notNullValue());
-        assertThat(createdProduct.getId(), is(updatedProduct.getId()));
-        assertThat(createdProduct.getName(), is(updatedProduct.getName()));
-        assertThat(createdProduct.getDescription(), is(updatedProduct.getDescription()));
-        assertThat(createdProduct.getPrice(), is(updatedProduct.getPrice()));
-        assertThat(createdProduct.getQuantity(), is(updatedProduct.getQuantity()));
+        assertThat(updatedProduct, notNullValue());
+        assertThat(updatedProduct.getId(), is(createdProduct.getId()));
+        assertThat(updatedProduct.getName(), is(request.getName()));
+        assertThat(updatedProduct.getDescription(), is(request.getDescription()));
+        assertThat(updatedProduct.getPrice(), is(request.getPrice()));
+        assertThat(updatedProduct.getQuantity(), is(request.getQuantity()));
     }
 
     private Product createProduct() {
@@ -99,5 +99,13 @@ public class ProductServiceIntegrationTests {
         return createdProduct;
     }
 
-    //todo: add then rest of the tests
+    @Test(expected = ResourceNotFoundException.class)
+    public void testDeleteProduct_whenExistingProduct_thenProductIsDeleted() {
+        Product product = createProduct();
+
+        productService.deleteProduct(product.getId());
+
+        productService.getProduct(product.getId());
+
+    }
 }
