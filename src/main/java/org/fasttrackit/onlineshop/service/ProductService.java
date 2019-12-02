@@ -3,11 +3,14 @@ package org.fasttrackit.onlineshop.service;
 import org.fasttrackit.onlineshop.domain.Product;
 import org.fasttrackit.onlineshop.exception.ResourceNotFoundException;
 import org.fasttrackit.onlineshop.persistance.ProductRepository;
+import org.fasttrackit.onlineshop.transfer.GetProductsRequest;
 import org.fasttrackit.onlineshop.transfer.SaveProductRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -61,9 +64,23 @@ public class ProductService {
         return productRepository.save(retrievedProduct);
     }
 
+    public Page<Product> getProducts(GetProductsRequest request, Pageable pageable) {
+        LOGGER.info("Retrieving products: {}", request);
+        if (request != null && request.getPartialName() !=null && request.getMinimumQuantity() != null){
+            return productRepository.findByNameContainingAndQuantityGreaterThanEqual(request.getPartialName(), request.getMinimumQuantity(), pageable);
+        } else if (request != null && request.getPartialName() != null) {
+            return productRepository.findByNameContaining(request.getPartialName(), pageable);
+        } else{
+            return productRepository.findAll(pageable);
+        }
+    }
+
+
     public void deleteProduct(long id) {
-        LOGGER.info("Deleting product {}:",id);
+        LOGGER.info("Deleting product {}:", id);
         productRepository.deleteById(id);
-        LOGGER.info("Product id: {} has been deleted",id);
+        LOGGER.info("Product id: {} has been deleted", id);
     }
 }
+
+
