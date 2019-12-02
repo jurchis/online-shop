@@ -53,7 +53,7 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
 //    @RequestMapping(method = RequestMethod.DELETE, path = "/{id}")
-    public ResponseEntity<> deleteProduct(@PathVariable("id") Long id) {
+    public ResponseEntity deleteProduct(@PathVariable("id") Long id) {
         productService.deleteProduct(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
