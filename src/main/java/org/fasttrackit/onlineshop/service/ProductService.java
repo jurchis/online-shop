@@ -41,27 +41,11 @@ public class ProductService {
         LOGGER.info("Creating product {} ", request);
         Product product = objectMapper.convertValue(request, Product.class);
 
-        // below is replaced by object mapper
-//        Product product = new Product();
-//        product.setDescription(request.getDescription());
-//        product.setName(request.getName());
-//        product.setPrice(request.getPrice());
-//        product.setQuantity(request.getQuantity());
-//        product.setImageUrl(request.getImageUrl());
-
         return productRepository.save(product);
     }
 
     public Product getProduct(long id) {
         LOGGER.info("Retrieving product {}", id);
-
-//        Optional<Product> productOptional = productRepository.findById(id);
-//
-//        if (productOptional.isPresent()) {
-//            return productOptional.get();
-//        } else {
-//            throw new ResourceNotFoundException("");
-//        }
 
 //        // using Optional
         return productRepository.findById(id)
