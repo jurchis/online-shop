@@ -21,6 +21,21 @@ public class Cart {
             inverseJoinColumns = @JoinColumn(name = "product_id"))
     private Set<Product> products = new HashSet<>();
 
+    public void addToCart(Product product) {
+        //adding the received product into the cart- the current cart
+        products.add(product);
+
+        //"this" represents aways the current object, adding the current cart to the cart set of the received product
+        product.getCarts().add(this);
+    }
+
+    public void removeFromCart(Product product) {
+        products.remove(product);
+
+        product.getCarts().remove(this);
+
+    }
+
     public Long getId() {
         return id;
     }
