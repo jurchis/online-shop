@@ -4,8 +4,8 @@ public class GetProductsRequest {
 
     private String partialName;
 
-    //Integer instead of int and default value if nothing in the method will be Null instead of 0
-    private Integer minimumQuantity;
+    // allowing null by using the wrapper class
+    private Integer minQuantity;
 
     public String getPartialName() {
         return partialName;
@@ -15,19 +15,19 @@ public class GetProductsRequest {
         this.partialName = partialName;
     }
 
-    public Integer getMinimumQuantity() {
-        return minimumQuantity;
+    public Integer getMinQuantity() {
+        return minQuantity;
     }
 
-    public void setMinimumQuantity(Integer minimumQuantity) {
-        this.minimumQuantity = minimumQuantity;
+    public void setMinQuantity(Integer minQuantity) {
+        this.minQuantity = minQuantity;
     }
 
     @Override
     public String toString() {
         return "GetProductsRequest{" +
                 "partialName='" + partialName + '\'' +
-                ", minimumQuantity=" + minimumQuantity +
+                ", minQuantity=" + minQuantity +
                 '}';
     }
 }
